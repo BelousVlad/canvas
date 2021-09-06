@@ -1,30 +1,43 @@
+import { Transform } from "./transform";
+
 export default class {
-    constructor({from = 0, to = 0, duraction = 0, delay = 0, startTime = 0}) {
-        this.from = from; 
-        this.value = from;
-        this.to = to; 
+    constructor({duraction = 0, delay = 0, startTime = 0}, transform) {
         this.duraction = duraction; 
         this.delay = delay;
         this.startTime = startTime;
+        this.ended = false;
+        this.transform = transform;
     }
 
     update(time) {
-        if(this.value === this.to)
+        if(this.ended)
             return false;
-
+        
         const t_delta = time - this.startTime;
 
         let elapsed = (t_delta / this.duraction);
 
         if(elapsed > 1)
+        {
+            this.ended = true;
             elapsed = 1;
+        }
         else if (elapsed < 0)
+        {
+            this.ended = true;
             elapsed = 0;
-
-        const v_delta = (this.to - this.from) * elapsed;
-
-        this.value = this.from + v_delta;
+        }
+        this.__transform(elapsed);
 
         return true;
     }
+
+    __transform(elapsed) {
+        if(this.transform instanceof Transform)
+            this.transform.doTransfom(elapsed);
+        else if (typeof this.transform === 'function')
+            this.transform(elapsed);
+        else 
+            throw 'transform type error';
+    };
 }

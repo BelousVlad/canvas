@@ -17,8 +17,8 @@ export default class {
         requestAnimationFrame(this.update.bind(this))
     }
 
-    makeAnimation(to, duraction) {
-        const anim = new Transition({to, duraction, startTime: this.time});
+    makeAnimation(duraction, transform) {
+        const anim = new Transition({duraction, startTime: this.time}, transform);
 
         this.animations.push(anim);
         return anim;
