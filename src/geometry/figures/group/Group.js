@@ -10,6 +10,8 @@ export default class Group extends BaseFigure{
 export class GroupDrawler {
     update(ctx, time, group) {
         for(const figure of group.figures) {
+            figure.drawler.shift_x = group.x;
+            figure.drawler.shift_y = group.y;
             figure.drawler.update(ctx, time, figure);
         }
     }

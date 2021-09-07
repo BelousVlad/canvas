@@ -1,3 +1,4 @@
+import Drawler from "../../Drawler";
 import BaseFigure from "../BaseFigure";
 
 export default class QuadraticCurve extends BaseFigure{
@@ -10,12 +11,11 @@ export default class QuadraticCurve extends BaseFigure{
     }
 }
 
-export class QuadraticCurveDrawler {
+export class QuadraticCurveDrawler extends Drawler {
     update(ctx, time, curve) {
-        ctx.beginPath();
-        ctx.moveTo(curve.x, curve.y);
-        ctx.quadraticCurveTo(curve.cpx, curve.cpy, curve.x1, curve.y1);
-        ctx.stroke();
-        ctx.closePath();
+        this.begin(ctx);
+        ctx.moveTo(curve.x + this.shift_x, curve.y + this.shift_y);
+        ctx.quadraticCurveTo(curve.cpx + this.shift_x, curve.cpy + this.shift_y, curve.x1 + this.shift_x, curve.y1 + this.shift_y);
+        this.end(ctx);
     }
 }

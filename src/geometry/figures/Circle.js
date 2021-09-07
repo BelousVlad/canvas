@@ -1,22 +1,9 @@
-import Base from './BaseFigure'
+import Drawler from '../Drawler';
+import Arc from './curves/Arc';
+import { ArcDrawler } from './curves/Arc';
 
-export class Circle extends Base{
-    constructor({ x = 0, y = 0, radius = 10} = {}, drawler = new CircleDrawler()) {
-        super({x,y}, drawler)
-        this.radius = radius;
-    }
-
-    get center() {
-        return [this.x + this.radius, this.y + this.radius];
-    }
-}
-export class CircleDrawler {
-    update(ctx, time, circle) {
-        const [x,y] = circle.center;
-
-        ctx.beginPath();
-        ctx.arc(x, y, circle.radius, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.stroke();
+export class Circle extends Arc{
+    constructor({ x = 0, y = 0, radius = 0} = {}, drawler = new ArcDrawler()) {
+        super({x,y, radius, startAngle: 0, endAngle: Math.PI * 2}, drawler)
     }
 }
