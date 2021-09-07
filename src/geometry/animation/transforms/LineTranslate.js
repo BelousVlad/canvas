@@ -1,4 +1,4 @@
-import { Transform } from "../transform";
+import { Transform } from "../Transform";
 
 export default class extends Transform{
     constructor(line, { x_delta = 0, y_delta = 0 }) {

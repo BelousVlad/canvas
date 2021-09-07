@@ -1,4 +1,4 @@
-import { Transform } from "./transform";
+import { Transform } from "./Transform";
 
 export default class {
     constructor({duraction = 0, delay = 0, startTime = 0}, transform) {

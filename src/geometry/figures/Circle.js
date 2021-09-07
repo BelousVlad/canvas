@@ -1,8 +1,8 @@
 import Base from './BaseFigure'
 
 export class Circle extends Base{
-    constructor({ x = 0, y = 0, radius = 10} = {}) {
-        super({x,y})
+    constructor({ x = 0, y = 0, radius = 10} = {}, drawler = new CircleDrawler()) {
+        super({x,y}, drawler)
         this.radius = radius;
     }
 
