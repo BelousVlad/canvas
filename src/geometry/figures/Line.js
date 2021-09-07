@@ -14,8 +14,11 @@ export class LineDrawler extends Drawler{
     update(ctx, time, line) {
         this.begin(ctx);
         ctx.moveTo(line.x + this.shift_x, line.y + this.shift_y);
+        // console.log('line', line.x, line.y, line.x1, line.y1);
+        // console.log('shift', this.shift_x, this.shift_y);
         ctx.lineTo(line.x1 + this.shift_x, line.y1 + this.shift_y);
-        // console.log(line.x1 + this.shift_x, line.y1 + this.shift_y);
+        // console.log(line.x1, line.y1);
+        // console.log(line);
         
         this.end(ctx);
     }
