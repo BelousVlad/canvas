@@ -1,12 +1,13 @@
 import { Transform } from "./Transform";
 
 export default class {
-    constructor({duraction = 0, delay = 0, startTime = 0}, transform) {
+    constructor({duraction = 0, delay = 0, startTime = 0, timing_function = (elapsed) => elapsed }, transform) {
         this.duraction = duraction; 
         this.delay = delay;
         this.startTime = startTime;
         this.ended = false;
         this.transform = transform;
+        this.timing_function = timing_function;
     }
 
     update(time) {
@@ -27,7 +28,7 @@ export default class {
             this.ended = true;
             elapsed = 0;
         }
-        this.__transform(elapsed);
+        this.__transform(this.timing_function(elapsed));
 
         return true;
     }

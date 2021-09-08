@@ -1,3 +1,5 @@
+import Animator from "../../../../animation/Animator";
+import { Transform } from "../../../../animation/Transform";
 import { ROUND } from "../../../../helpers/Math";
 import Group, { GroupDrawler } from "../../../group/Group";
 import Section from "../../Section";
@@ -8,14 +10,15 @@ export default class PieChart extends Chart {
         super({x,y, data}, drawler);
         this.data_figure = new Map();
         this.__radius = radius;
-        this.__init(radius);
+        this.animator = new Animator();
+        this.__init();
     }
 
     __init() {
         for(const data_item of this.data) {
             this.__addFigure(data_item);
         }
-        this.__calc_angles();
+        this.__calc_angles(true);
     }
 
     set radius(new_rad) {
@@ -26,7 +29,7 @@ export default class PieChart extends Chart {
 
     get radius() { return this.__radius; }
 
-    __calc_angles() {
+    __calc_angles(init = false) {
         let start = 0;
 
         const all_value = this.data.reduce((acc, item) => acc + this.__getDataFullValue(item), 0)
@@ -37,11 +40,19 @@ export default class PieChart extends Chart {
             const section = this.data_figure.get(data_item)
             const added_angle = ROUND.FULL * percent;
             const end_angle = start + added_angle;
-            section.startAngle = start;
-            section.endAngle = end_angle;
+            if(init) {
+                section.startAngle = start;
+                section.endAngle = end_angle;
+            }
+            else {
+                this.animator.makeAnimation(1000, (_) => {
+                    return Math.sqrt(_)
+                } ,new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle }))
+            }
+
             start = end_angle;
         }
-    }
+    }   
 
     pushData(newData) { //override
         this.__addFigure(newData);

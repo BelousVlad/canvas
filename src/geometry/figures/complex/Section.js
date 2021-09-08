@@ -3,8 +3,8 @@ import { Line } from "../Line";
 import QuadraticCurve from "../curves/Quadratic";
 import Arc from "../curves/Arc";
 
-export default class Section extends Group{
-    constructor({x = 0, y = 0, radius = 0, startAngle = 0, endAngle = 0} = {}, drawler = new GroupDrawler()) {
+export default class Section extends Group {
+    constructor({ x = 0, y = 0, radius = 0, startAngle = 0, endAngle = 0 } = {}, drawler = new GroupDrawler()) {
         super({x,y})
         this.__radius = 0;
         this.__startAngle = 0;
@@ -35,14 +35,14 @@ export default class Section extends Group{
         this.__calc();
     }
 
-    get startAngle() { this.__startAngle; }
+    get startAngle() { return this.__startAngle; }
 
     set endAngle(value) {
         this.__endAngle = value;
         this.__calc();
     }
 
-    get endAngle() { this.__endAngle; }
+    get endAngle() { return this.__endAngle; }
     
     __calc_x(radius, angle) {
         return radius * Math.cos(angle) + this.arc.center[0];
@@ -57,12 +57,15 @@ export default class Section extends Group{
         this.line2.x = this.x + this.__radius;
         this.line1.y = this.y + this.__radius;
         this.line2.y = this.y + this.__radius;
+
         this.arc.x = this.x;
         this.arc.y = this.y;
+
         this.line1.x1 = this.__calc_x(this.__radius, this.__startAngle);
         this.line1.y1 = this.__calc_y(this.__radius, this.__startAngle);
         this.line2.x1 = this.__calc_x(this.__radius, this.__endAngle);
         this.line2.y1 = this.__calc_y(this.__radius, this.__endAngle);
+
         this.arc.startAngle = this.__startAngle;
         this.arc.endAngle = this.__endAngle;
     }

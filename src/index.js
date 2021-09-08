@@ -72,4 +72,4 @@ window.data3 = data3;
 window.pie = pie;
 
 canvas.addFigure(pie)
-const anim1 = animator.makeAnimation(3000, new Transform(pie, { x: 100 }));
+// const anim1 = animator.makeAnimation(3000, new Transform(pie, { x: 100 }));
