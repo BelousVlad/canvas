@@ -63,7 +63,7 @@ const data3 = new ChartData({title: 'test3', data: [
 const pie = new PieChart({x: 50, y: 30, radius: 100, data: [
     data,
     data2,
-    data3
+    data3,
 ]})
 
 window.data = data;
@@ -72,4 +72,4 @@ window.data3 = data3;
 window.pie = pie;
 
 canvas.addFigure(pie)
-// const anim1 = animator.makeAnimation(3000, new Transform(data, { data: { 0: {value: 200 } }}));
+const anim1 = animator.makeAnimation(3000, new Transform(pie, { x: 100 }));

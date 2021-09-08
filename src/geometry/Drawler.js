@@ -1,6 +1,9 @@
 export default class Drawler {
-    shift_x = 0;
-    shift_y = 0;
+    
+    constructor() {
+        this.shift_x = 0;
+        this.shift_y = 0;
+    }
     update(ctx, time, figure) {
         throw 'Override update method';
     }

@@ -1,3 +1,4 @@
+import Drawler from "../../Drawler";
 import BaseFigure from "../BaseFigure";
 
 export default class Group extends BaseFigure{
@@ -7,13 +8,12 @@ export default class Group extends BaseFigure{
     }
 }
 
-export class GroupDrawler {
+export class GroupDrawler extends Drawler{
     update(ctx, time, group) {
+        // console.log(group)
         for(const figure of group.figures) {
-            // console.log(figure.drawler.shift_x)
-            figure.drawler.shift_x = group.x;
-            // console.log(figure.drawler.shift_x)
-            figure.drawler.shift_y = group.y;
+            figure.drawler.shift_x = group.x + this.shift_x;
+            figure.drawler.shift_y = group.y + this.shift_y;
             figure.drawler.update(ctx, time, figure);
         }
     }
