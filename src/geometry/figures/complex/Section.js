@@ -65,7 +65,6 @@ export default class Section extends Group{
         this.line2.y1 = this.__calc_y(this.__radius, this.__endAngle);
         this.arc.startAngle = this.__startAngle;
         this.arc.endAngle = this.__endAngle;
-        console.log(this.x, this.line1.x)
     }
 
 }

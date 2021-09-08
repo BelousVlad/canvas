@@ -8,6 +8,8 @@ import { Transform } from "./geometry/animation/Transform";
 import QuadraticCurve from "./geometry/figures/curves/Quadratic";
 import Arc from "./geometry/figures/curves/Arc";
 import Section from "./geometry/figures/complex/Section";
+import PieChart from "./geometry/figures/complex/charts/pie/Pie";
+import ChartData from "./geometry/figures/complex/charts/ChartData";
 
 const body = document.getElementsByTagName('body')[0];
 const canvas_el = document.createElement('canvas');
@@ -38,7 +40,36 @@ const animator = new Animator();
 // console.log(canvas);
 
 
-const section = new Section({x: 0, y: 0, radius: 50, startAngle: 0, endAngle: Math.PI / 3 })
-canvas.addFigure(section);
-const anim1 = animator.makeAnimation(3000, new Transform(section, { startAngle: Math.PI * 2, endAngle: -Math.PI, radius: 50, x: 50 }));
+// const section = new Section({x: 0, y: 0, radius: 50, startAngle: 0, endAngle: Math.PI / 3 })
+// canvas.addFigure(section);
 // const anim2 = animator.makeAnimation(10000, new Transform(section, { }));
+
+const data = new ChartData({title: 'test', data: [
+    { distance: 0, value: 100 },
+    { distance: 2, value: 50 },
+    { distance: 4, value: 130 },
+]})
+const data2 = new ChartData({title: 'test2', data: [
+    { distance: 0, value: 100 },
+    { distance: 2, value: 50 },
+    { distance: 4, value: 130 },
+]})
+const data3 = new ChartData({title: 'test3', data: [
+    { distance: 0, value: 100 },
+    { distance: 2, value: 50 },
+    { distance: 4, value: 130 },
+]})
+
+const pie = new PieChart({x: 50, y: 30, radius: 100, data: [
+    data,
+    data2,
+    data3
+]})
+
+window.data = data;
+window.data2 = data2;
+window.data3 = data3;
+window.pie = pie;
+
+canvas.addFigure(pie)
+// const anim1 = animator.makeAnimation(3000, new Transform(data, { data: { 0: {value: 200 } }}));
