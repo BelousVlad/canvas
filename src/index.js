@@ -75,6 +75,4 @@ window.data3 = data3;
 window.pie = pie;
 
 canvas.addFigure(pie)
-// const anim1 = animator.makeAnimation({duraction : 3000 }, new Transform(pie, { radius: 100 }));
-
-window.bezie = cubic_bezie;
+// const anim1 = animator.makeAnimation({duraction : 10000, timing_function: cubic_bezie(.27,.12,.29,.99) }, new Transform(pie, { radius: 100 }));

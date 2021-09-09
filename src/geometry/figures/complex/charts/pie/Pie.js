@@ -1,5 +1,6 @@
 import Animator from "../../../../animation/Animator";
 import { Transform } from "../../../../animation/Transform";
+import { cubic_bezie } from "../../../../helpers/Animation";
 import { ROUND } from "../../../../helpers/Math";
 import Group, { GroupDrawler } from "../../../group/Group";
 import Section from "../../Section";
@@ -11,6 +12,7 @@ export default class PieChart extends Chart {
         this.data_figure = new Map();
         this.__radius = radius;
         this.animator = new Animator();
+        this.cubic_bezie = cubic_bezie(.27,.12,.29,.99);
         this.__init();
     }
 
@@ -45,9 +47,9 @@ export default class PieChart extends Chart {
                 section.endAngle = end_angle;
             }
             else {
-                this.animator.makeAnimation({ duraction: 1000, timing_function: (_) => {
-                    return Math.sqrt(_)}
-                } ,new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle }))
+                this.animator.makeAnimation({ duraction: 1000, timing_function: this.cubic_bezie },
+                    new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle })
+                )
             }
 
             start = end_angle;

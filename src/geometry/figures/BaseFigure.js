@@ -4,4 +4,8 @@ export default class {
         this. y = y;
         this.drawler = drawler;
     }
+
+    isBelousPoint(point) {
+        return false;
+    }
 }

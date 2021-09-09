@@ -70,4 +70,10 @@ export default class Section extends Group {
         this.arc.endAngle = this.__endAngle;
     }
 
+    //override
+    isBelousPoint(point) {
+        const [ cx, cy ] = this.center;
+        
+    }
+
 }
