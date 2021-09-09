@@ -45,8 +45,8 @@ export default class PieChart extends Chart {
                 section.endAngle = end_angle;
             }
             else {
-                this.animator.makeAnimation(1000, (_) => {
-                    return Math.sqrt(_)
+                this.animator.makeAnimation({ duraction: 1000, timing_function: (_) => {
+                    return Math.sqrt(_)}
                 } ,new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle }))
             }
 
@@ -68,7 +68,7 @@ export default class PieChart extends Chart {
     }
 
     __addFigure(data) {
-        const section = new Section({x: this.x, y: this.y, radius: this.radius });
+        const section = new Section({x: this.x, y: this.y, radius: this.radius, startAngle: ROUND.FULL, endAngle: ROUND.FULL });
         this.figures.push(section);
         this.data_figure.set(data, section);
     }

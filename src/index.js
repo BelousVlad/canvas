@@ -10,14 +10,17 @@ import Arc from "./geometry/figures/curves/Arc";
 import Section from "./geometry/figures/complex/Section";
 import PieChart from "./geometry/figures/complex/charts/pie/Pie";
 import ChartData from "./geometry/figures/complex/charts/ChartData";
+import { bezie_basis, cubic_bezie } from "./geometry/helpers/Animation";
 
 const body = document.getElementsByTagName('body')[0];
 const canvas_el = document.createElement('canvas');
+canvas_el.style.width = '500px';
+canvas_el.style.height = '300px';
 
 body.appendChild(canvas_el);
 
-canvas_el.width = 500;
-canvas_el.height = 300;
+canvas_el.width = 1000;
+canvas_el.height = 600;
 
 const canvas = new Canvas(canvas_el);
 
@@ -72,4 +75,6 @@ window.data3 = data3;
 window.pie = pie;
 
 canvas.addFigure(pie)
-// const anim1 = animator.makeAnimation(3000, new Transform(pie, { x: 100 }));
+// const anim1 = animator.makeAnimation({duraction : 3000 }, new Transform(pie, { radius: 100 }));
+
+window.bezie = cubic_bezie;
