@@ -11,6 +11,7 @@ import Section from "./geometry/figures/complex/Section";
 import PieChart from "./geometry/figures/complex/charts/pie/Pie";
 import ChartData from "./geometry/figures/complex/charts/ChartData";
 import { bezie_basis, cubic_bezie } from "./geometry/helpers/Animation";
+import CubicBezierCurve, { CubicBezierCurveDrawler, CubicBezierCurveDrawlerMy } from "./geometry/figures/curves/CubicBezier";
 
 const body = document.getElementsByTagName('body')[0];
 const canvas_el = document.createElement('canvas');
@@ -75,4 +76,10 @@ window.data3 = data3;
 window.pie = pie;
 
 canvas.addFigure(pie)
+
+const bezie1 = new CubicBezierCurve({x: 50, y: 20 ,x1: 230, y1: 30, x2: 150, y2: 60, x3: 50, y3: 100}, new CubicBezierCurveDrawler())
+const bezie2 = new CubicBezierCurve({x: 50, y: 25 ,x1: 230, y1: 35, x2: 150, y2: 65, x3: 50, y3: 105}, new CubicBezierCurveDrawlerMy())
+
+canvas.addFigure(bezie1)
+canvas.addFigure(bezie2)
 // const anim1 = animator.makeAnimation({duraction : 10000, timing_function: cubic_bezie(.27,.12,.29,.99) }, new Transform(pie, { radius: 100 }));
