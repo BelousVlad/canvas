@@ -1,7 +1,7 @@
 import { curve_cubic_bezie } from "./Bezie"
 
 export const ANIMATION = {
-    CUBIC_BEZIER_STEP: 0.05,
+    CUBIC_BEZIER_STEP: 0.001,
     CUBIC_BEZIER_MAX: 1
 }
 
@@ -10,6 +10,7 @@ export function cubic_bezie(x0,y0,x1,y1) {
     const step = ANIMATION.CUBIC_BEZIER_STEP;
 
     const bezier = [];
+    const accurs = [0];
 
     for(let i = 0; i <= ANIMATION.CUBIC_BEZIER_MAX + ANIMATION.CUBIC_BEZIER_STEP ; i+=step) {
         bezier.push(curve(i));
@@ -21,10 +22,23 @@ export function cubic_bezie(x0,y0,x1,y1) {
         const p2 = bezier[i];
 
         accuumulator += Math.sqrt( Math.pow(Math.abs(p1.x - p2.x), 2) + Math.pow(Math.abs(p1.y - p2.y),2));
+        accurs.push(accuumulator);
     }
 
     return function(t) {
-        return Math.sqrt( Math.pow(accuumulator * t, 2) - Math.pow(t,2) );
+
+        const progress = accuumulator * t;
+
+        for(let i = 0; i < accurs.length; ++i) {
+            if(accurs[i] >= progress) {
+                return bezier[i].y;
+            }
+        }
+        return bezier[accurs.length - 1].y;
+
+
+
+        // return Math.sqrt( Math.pow(progress, 2) - Math.pow(t,2) )
     }
 }
 

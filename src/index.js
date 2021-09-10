@@ -91,6 +91,6 @@ canvas.addFigure(rect1)
 canvas.addFigure(rect2)
 
 const anim4 = animator.makeAnimation({duraction : 1000 }, new Transform(rect1, { x: 300 }));
-const anim5 = animator.makeAnimation({duraction : 1000, timing_function: cubic_bezie(.5,.5,.5,.5) }, new Transform(rect2, { x: 300 }));
+const anim5 = animator.makeAnimation({duraction : 1000, timing_function: cubic_bezie(.29,.09,.22,.98) }, new Transform(rect2, { x: 300 }));
 
 // console.log(cubic_bezie(.5,.5,.5,.5));

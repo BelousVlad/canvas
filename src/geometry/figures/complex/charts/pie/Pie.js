@@ -12,7 +12,7 @@ export default class PieChart extends Chart {
         this.data_figure = new Map();
         this.__radius = radius;
         this.animator = new Animator();
-        this.cubic_bezie = cubic_bezie(.27,.12,.29,.99);
+        this.cubic_bezie = cubic_bezie(.29,.09,.22,.98);
         this.__init();
     }
 
