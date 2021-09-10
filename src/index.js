@@ -12,6 +12,7 @@ import PieChart from "./geometry/figures/complex/charts/pie/Pie";
 import ChartData from "./geometry/figures/complex/charts/ChartData";
 import { bezie_basis, cubic_bezie } from "./geometry/helpers/Animation";
 import CubicBezierCurve, { CubicBezierCurveDrawler, CubicBezierCurveDrawlerMy } from "./geometry/figures/curves/CubicBezier";
+import { Reactangle, Rectangle } from "./geometry/figures/Rectangle";
 
 const body = document.getElementsByTagName('body')[0];
 const canvas_el = document.createElement('canvas');
@@ -82,4 +83,12 @@ const bezie2 = new CubicBezierCurve({x: 50, y: 25 ,x1: 230, y1: 35, x2: 150, y2:
 
 canvas.addFigure(bezie1)
 canvas.addFigure(bezie2)
-// const anim1 = animator.makeAnimation({duraction : 10000, timing_function: cubic_bezie(.27,.12,.29,.99) }, new Transform(pie, { radius: 100 }));
+
+const rect1 = new Rectangle({x: 50, y: 200, width: 50, height: 50})
+const rect2 = new Rectangle({x: 50, y: 260, width: 50, height: 50})
+
+canvas.addFigure(rect1)
+canvas.addFigure(rect2)
+
+const anim4 = animator.makeAnimation({duraction : 1000 }, new Transform(rect1, { x: 300 }));
+const anim5 = animator.makeAnimation({duraction : 1000, timing_function: cubic_bezie(.5,.5,.5,.5) }, new Transform(rect2, { x: 300 }));
