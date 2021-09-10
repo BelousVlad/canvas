@@ -1,37 +1,30 @@
-// export function bezie(...points) {
-//     // if(points.length === 0) {
-//     //     // const distance = Math.sqrt(Math.pow(Math.abs(point1.x - point2.x), 2) + Math.pow( Math.abs(point1.y - point2.y) ,2))
-//     //     const x = point2.x - point1.x;
-//     //     const y = point2.y - point1.y;
-//     //     return function(t) {
-//     //         return {
-//     //             x: (1-t)*point1.x + t*point2.x,
-//     //             y: (1-t)*point1.y + t*point2.y,
-//     //         }
-//     //     }
-//     // }
-
 import { curve_cubic_bezie } from "./Bezie"
 
-//     return function(t) {
-//         const n = points.length;
-        
-//         return {
-//             x: points.reduce((acc, val, k) => {
-//                 return acc + Math.pow((1-t), n-k) * Math.pow(t,k)*val.x
-//             }, 0),
-//             y: points.reduce((acc, val, k) => {
-//                 return acc + Math.pow((1-t), n-k) * Math.pow(t,k) * val.y
-//             }, 0)
-//         }
-//     }
-// }
+export const ANIMATION = {
+    CUBIC_BEZIER_STEP: 0.05,
+    CUBIC_BEZIER_MAX: 1
+}
 
 export function cubic_bezie(x0,y0,x1,y1) {
     const curve = curve_cubic_bezie({ x:0, y:0 }, { x: x0, y: y0 }, { x:x1, y: y1 }, { x:1, y:1 })
+    const step = ANIMATION.CUBIC_BEZIER_STEP;
+
+    const bezier = [];
+
+    for(let i = 0; i <= ANIMATION.CUBIC_BEZIER_MAX + ANIMATION.CUBIC_BEZIER_STEP ; i+=step) {
+        bezier.push(curve(i));
+    }
+
+    let accuumulator = 0; 
+    for(let i = 1; i < bezier.length; ++i) {
+        const p1 = bezier[i-1];
+        const p2 = bezier[i];
+
+        accuumulator += Math.sqrt( Math.pow(Math.abs(p1.x - p2.x), 2) + Math.pow(Math.abs(p1.y - p2.y),2));
+    }
+
     return function(t) {
-        const { x, y } = curve(t);
-        return y;
+        return Math.sqrt( Math.pow(accuumulator * t, 2) - Math.pow(t,2) );
     }
 }
 
