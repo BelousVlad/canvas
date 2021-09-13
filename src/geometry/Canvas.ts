@@ -1,5 +1,11 @@
-export default class {
-    constructor(element) {
+import { IDrawable } from "./figures/drawler/IDrawable";
+import { Figure } from "./figures/Figure";
+
+export default class Canvas{
+    private context: CanvasRenderingContext2D;
+    private figures: Array<IDrawable>;
+
+    constructor(private element: HTMLCanvasElement) {
         this.element = element;
         this.context = element.getContext('2d');
         this.figures = [];
@@ -7,16 +13,16 @@ export default class {
         requestAnimationFrame(this.render.bind(this))
     }
 
-    render(time) {
+    render() {
         this.context.clearRect(0,0, this.element.width, this.element.height);
         for(const figure of this.figures) {
-            figure.drawler.update(this.context, time, figure)
+            figure.getDrawler().update(this.context, figure)
         }
 
         requestAnimationFrame(this.render.bind(this))
     }
 
-    addFigure(figure) {
+    addFigure(figure: IDrawable) {
         this.figures.push(figure);
         
         return this;
