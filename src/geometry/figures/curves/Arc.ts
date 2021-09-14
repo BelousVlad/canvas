@@ -1,7 +1,12 @@
-import BaseFigure from "../BaseFigure";
-import Drawler from "../../Drawler";
+import { Drawler } from "../drawler/Drawler";
+import { Figure } from "../Figure";
 
-export default class Arc extends BaseFigure {
+export default class Arc extends Figure {
+
+    radius: number;
+    startAngle: number;
+    endAngle: number;
+
     constructor({x = 0, y = 0, radius = 0, startAngle = 0, endAngle = 0} = {}, drawler = new ArcDrawler()) {
         super({x,y}, drawler);
         this.radius = radius;
@@ -14,13 +19,12 @@ export default class Arc extends BaseFigure {
     }
 }
 
-export class ArcDrawler extends Drawler{
-    update(ctx, time, arc) {
+export class ArcDrawler extends Drawler<Arc>{
+    update(ctx: CanvasRenderingContext2D, arc: Arc) {
         const [x,y] = arc.center;
 
         this.begin(ctx);
-        ctx.arc(x + this.shift_x, y + this.shift_y, arc.radius, arc.startAngle, arc.endAngle);
-        // console.log(x + this.shift_x, y + this.shift_y, arc.radius, arc.startAngle, arc.endAngle);
+        ctx.arc(x + arc.shift_x, y + arc.shift_y, arc.radius, arc.startAngle, arc.endAngle);
         this.end(ctx)
     }
 }

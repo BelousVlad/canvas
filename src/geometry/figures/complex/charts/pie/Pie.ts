@@ -1,22 +1,26 @@
-import Animator from "../../../../animation/Animator";
-import { Transform } from "../../../../animation/Transform";
-import { cubic_bezie } from "../../../../helpers/Animation";
 import { ROUND } from "../../../../helpers/Math";
-import Group, { GroupDrawler } from "../../../group/Group";
+import { GroupDrawler } from "../../../group/Group";
 import Section from "../../Section";
-import Chart from "../Chart";
+import { Chart, ChartArgs } from "../Chart";
+import { ChartData } from "../ChartData";
 
-export default class PieChart extends Chart { 
-    constructor({x = 0, y = 0, radius = 0, data = []}, drawler = new GroupDrawler()) {
-        super({x,y, data}, drawler);
+type PieArg = ChartArgs & { radius: number };
+
+export default class PieChart extends Chart {
+    private __radius: number;
+    private data_figure: Map<ChartData, Section>;
+    private sections: Array<Section>;
+    
+    constructor(arg: PieArg , drawler = new GroupDrawler()) {
+        super(arg, drawler);
         this.data_figure = new Map();
-        this.__radius = radius;
-        this.animator = new Animator();
-        this.cubic_bezie = cubic_bezie(.29,.09,.22,.98);
-        this.__init();
+        this.__radius = arg.radius;
+        // this.animator = new Animator();
+        // this.cubic_bezie = cubic_bezie(.29,.09,.22,.98);
+        this.___init();
     }
 
-    __init() {
+    private ___init() {
         for(const data_item of this.data) {
             this.__addFigure(data_item);
         }
@@ -25,7 +29,7 @@ export default class PieChart extends Chart {
 
     set radius(new_rad) {
         this.__radius = new_rad;
-        for(const section of this.figures)
+        for(const section of this.sections)
             section.radius = new_rad;
     }
 
@@ -42,34 +46,41 @@ export default class PieChart extends Chart {
             const section = this.data_figure.get(data_item)
             const added_angle = ROUND.FULL * percent;
             const end_angle = start + added_angle;
-            if(init) {
                 section.startAngle = start;
                 section.endAngle = end_angle;
-            }
-            else {
-                this.animator.makeAnimation({ duraction: 1000, timing_function: this.cubic_bezie },
-                    new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle })
-                )
-            }
+
+            // if(init) {
+            //     section.startAngle = start;
+            //     section.endAngle = end_angle;
+            // }
+            // else {
+            //     this.animator.makeAnimation({ duraction: 1000, timing_function: this.cubic_bezie },
+            //         new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle })
+            //     )
+            // }
 
             start = end_angle;
         }
     }   
 
-    pushData(newData) { //override
+    override pushData(newData: ChartData) {
         this.__addFigure(newData);
         const res = this.data.push(newData);
         this.__calc_angles();
         return res;
     }
 
-    setDataValue(data, distance, value) {
-        const a = data.data.find((item) => item.distance == distance);
-        a.value = value;
+    // setDataValue(data, distance, value) {
+    //     const a = data.data.find((item) => item.distance == distance);
+    //     a.value = value;
+    //     this.__calc_angles();
+    // }
+
+    override refresh() {
         this.__calc_angles();
     }
 
-    __addFigure(data) {
+    private __addFigure(data: ChartData) {
         const section = new Section({x: this.x, y: this.y, radius: this.radius, startAngle: ROUND.FULL, endAngle: ROUND.FULL });
         this.figures.push(section);
         this.data_figure.set(data, section);
