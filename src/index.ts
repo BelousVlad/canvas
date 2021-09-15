@@ -18,11 +18,13 @@ import { Transform } from "./geometry/animation/Transform";
 
 import { ChartData } from "./geometry/figures/complex/charts/ChartData";
 import PieChart from "./geometry/figures/complex/charts/pie/Pie";
+import { HoverEventor } from "./events/events/hover/HoverEventor";
+import { Rectangle } from "./geometry/figures/Rectangle";
+import Transition from "./geometry/animation/Transition";
+import { cubic_bezie } from "./geometry/helpers/Animation";
 
 const body = document.getElementsByTagName('body')[0];
 const canvas_el = document.createElement('canvas');
-canvas_el.style.width = '500px';
-canvas_el.style.height = '300px';
 
 body.appendChild(canvas_el);
 
@@ -30,8 +32,6 @@ canvas_el.width = 1000;
 canvas_el.height = 600;
 
 const canvas = new Canvas(canvas_el);
-
-const animator = new Animator();
 
 // const line = new Line({x: })
 
@@ -88,13 +88,25 @@ const pie = new PieChart({x: 50, y: 30, radius: 100, start:4, end: 6, data: [
 
 canvas.addFigure(pie)
 
+const rect1 = new Rectangle({x: 0, y: 500, width: 200, height: 100})
+// const rect2 = new Rectangle({x: 100, y: 300, width: 200, height: 100})
+const eventor = new HoverEventor();
+
+eventor.subscribe(canvas);
+
+canvas.addFigure(rect1)
+rect1.setXTransition(new Transition({duraction: 1000, timing_function: cubic_bezie(.29,.09,.22,.98)}))
+
+rect1.x = rect1.x + 200;
+
+
+
 // const bezie1 = new CubicBezierCurve({x: 50, y: 20 ,x1: 230, y1: 30, x2: 150, y2: 60, x3: 50, y3: 100}, new CubicBezierCurveDrawler())
 // const bezie2 = new CubicBezierCurve({x: 50, y: 25 ,x1: 230, y1: 35, x2: 150, y2: 65, x3: 50, y3: 105}, new CubicBezierCurveDrawlerMy())
 
 // canvas.addFigure(bezie1)
 // canvas.addFigure(bezie2)
 
-// const rect1 = new Rectangle({x: 50, y: 200, width: 50, height: 50})
 // const rect2 = new Rectangle({x: 50, y: 260, width: 50, height: 50})
 
 // canvas.addFigure(rect1)

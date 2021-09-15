@@ -10,6 +10,11 @@ export default class {
         this.timing_function = timing_function;
     }
 
+    setTransform(transf) { 
+        this.transform = transf;
+        return this;
+    }
+
     update(time) {
         if(this.ended)
             return false;

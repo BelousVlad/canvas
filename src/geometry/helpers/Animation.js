@@ -42,6 +42,7 @@ export function cubic_bezie(x0,y0,x1,y1) {
     }
 }
 
+
 // export function cubic_bezie1(...P) {
 //     return function(t) {
 //         return {

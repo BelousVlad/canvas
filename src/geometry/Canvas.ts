@@ -1,5 +1,4 @@
 import { IDrawable } from "./figures/drawler/IDrawable";
-import { Figure } from "./figures/Figure";
 
 export default class Canvas{
     private context: CanvasRenderingContext2D;

@@ -1,6 +1,6 @@
 import Transition from "./Transition";
 
-export default class {
+export default new class {
     constructor() {
         this.updates = new Map();
         this.animations = [];
@@ -17,11 +17,10 @@ export default class {
         requestAnimationFrame(this.update.bind(this))
     }
 
-    makeAnimation({ duraction = 0, timing_function = undefined } = {}, transform) {
-        const anim = new Transition({duraction, startTime: this.time, timing_function}, transform);
+    makeAnimation(transition) {
+        // const anim = new Transition({duraction, startTime: this.time, timing_function}, transform);
 
-        this.animations.push(anim);
-        return anim;
+        this.animations.push(transition);
     }
 
     onUpdate(animation, callback) {

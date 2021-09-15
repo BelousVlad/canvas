@@ -12,23 +12,24 @@ export default class Group extends Figure{
     }
 
     public addFigure(figure: Figure) {
-        figure.shift_x = this.x;
-        figure.shift_y = this.y;
+        figure.shift_x = this.x + this.shift_x;
+        figure.shift_y = this.y + this.shift_y;
+        figure.group = this;
         this.figures.push(figure);
     }
 
-    public override set x(new_x: number) {
-        this.__x = new_x;
+    public set x(new_x: number) {
+        this.__x.value = new_x;
         this.__set_shifts();
     }
 
     public override set y(new_y: number) {
-        this.__y = new_y;
+        this.__y.value = new_y;
         this.__set_shifts();
     }
 
-    public override get x() { return this.__x; }
-    public override get y() { return this.__y; }
+    public override get x() { return this.__x.value; }
+    public override get y() { return this.__y.value; }
 
     private __init() {
         this.__set_shifts();
