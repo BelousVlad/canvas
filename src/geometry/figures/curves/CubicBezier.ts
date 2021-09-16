@@ -1,5 +1,3 @@
-import { cubic_bezie } from "../../helpers/Animation";
-import { curve_cubic_bezie } from "../../helpers/Bezie";
 import { Drawler } from "../drawler/Drawler";
 import { Figure } from "../Figure";
 
