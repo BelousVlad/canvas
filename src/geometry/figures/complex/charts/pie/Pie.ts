@@ -1,3 +1,4 @@
+import Transition from "../../../../animation/Transition";
 import { ROUND } from "../../../../helpers/Math";
 import { GroupDrawler } from "../../../group/Group";
 import Section from "../../Section";
@@ -9,7 +10,8 @@ type PieArg = ChartArgs & { radius: number };
 export default class PieChart extends Chart {
     private __radius: number;
     private data_figure: Map<ChartData, Section>;
-    private sections: Array<Section>;
+    private sections: Array<Section> = [];
+    private anglesTransition: Transition;
     
     constructor(arg: PieArg , drawler = new GroupDrawler()) {
         super(arg, drawler);
@@ -39,28 +41,33 @@ export default class PieChart extends Chart {
         let start = 0;
 
         const all_value = this.data.reduce((acc, item) => acc + this.__getDataFullValue(item), 0)
+
         
         for(const data_item of this.data) {
             const value = this.__getDataFullValue(data_item);
+            // console.log(value)
             const percent = value / all_value;
             const section = this.data_figure.get(data_item)
             const added_angle = ROUND.FULL * percent;
             const end_angle = start + added_angle;
-                section.startAngle = start;
-                section.endAngle = end_angle;
+
+            console.log(start)
+            section.startAngle = start;
+            section.endAngle = end_angle;
 
             // if(init) {
-            //     section.startAngle = start;
-            //     section.endAngle = end_angle;
-            // }
-            // else {
-            //     this.animator.makeAnimation({ duraction: 1000, timing_function: this.cubic_bezie },
-            //         new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle })
-            //     )
-            // }
-
-            start = end_angle;
-        }
+                //     section.startAngle = start;
+                //     section.endAngle = end_angle;
+                // }
+                // else {
+                    //     this.animator.makeAnimation({ duraction: 1000, timing_function: this.cubic_bezie },
+                    //         new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle })
+                    //     )
+                    // }
+                    
+                    start = end_angle;
+                }
+            console.log(this)
     }   
 
     override pushData(newData: ChartData) {
@@ -82,7 +89,19 @@ export default class PieChart extends Chart {
 
     private __addFigure(data: ChartData) {
         const section = new Section({x: this.x, y: this.y, radius: this.radius, startAngle: ROUND.FULL, endAngle: ROUND.FULL });
+        if(this.anglesTransition)
+            section.setStartAngleTransition(this.anglesTransition);
         this.figures.push(section);
+        this.sections.push(section);
         this.data_figure.set(data, section);
+    }
+
+    setAnglesTransaction(t: Transition) {
+        this.anglesTransition = t;
+        this.sections.forEach(section => {
+            section.setStartAngleTransition(t);
+            section.setEndAngleTransition(t);
+            // section.set
+        })
     }
 } 

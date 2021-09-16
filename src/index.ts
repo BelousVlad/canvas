@@ -81,14 +81,25 @@ const data3: ChartData = {title: 'test', values: [
     { distance: 4, value: 130 },
 ]}
 
-// const pie = new PieChart({x: 50, y: 30, radius: 100, start:4, end: 6, data: [
-//     data,
-//     data2,
-//     data3,
-// ]})
+const pie = new PieChart({x: 50, y: 30, radius: 100, start:4, end: 6, data: [
+    data,
+    data2,
+    data3,
+]})
 
 
-// canvas.addFigure(pie)
+canvas.addFigure(pie)
+pie.setAnglesTransaction(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}));
+
+pie.pushData({title: 'test', values: [
+    { distance: 0, value: 100 },
+    { distance: 2, value: 50 },
+    { distance: 4, value: 130 },
+]});
+
+
+Object.defineProperty(window, 'data', {value: data})
+Object.defineProperty(window, 'pie', {value: pie})
 
 // const rect2 = new Rectangle({x: 100, y: 300, width: 200, height: 100})
 const eventor = new HoverEventor();
@@ -100,18 +111,18 @@ eventor.subscribe(canvas);
 // circle.setRadiusTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
 // circle.radius -= 100;
 
-const section = new Section({x: 0, y: 0, radius: 50, startAngle: 0, endAngle: Math.PI / 2})
-canvas.addFigure(section);
+// const section = new Section({x: 0, y: 0, radius: 50, startAngle: 0, endAngle: Math.PI / 2})
+// canvas.addFigure(section);
 // section.setRadiusTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
 // section.radius += 100;
-section.setXTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
-section.setYTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
-section.setStartAngleTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
-section.startAngle -= 2;
-console.log(section)
+// // section.setXTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+// // section.setYTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+// section.setStartAngleTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+// section.startAngle -= 2;
+// console.log(section)
 // section.x -= 100;
 // section.y -= 100;
-console.log(section.x)
+// console.log(section.x)
 // section.y -= 100;
 // setInterval(() => console.log(section), 100)
 

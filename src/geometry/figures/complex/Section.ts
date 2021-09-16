@@ -12,9 +12,9 @@ export default class Section extends Group {
     private __startAngle: number;
     private __endAngle: number;
 
-     line1: Line;
-     line2: Line;
-     arc: Arc;
+    private line1: Line;
+    private line2: Line;
+    private arc: Arc;
 
     constructor({ x = 0, y = 0, radius = 0, startAngle = 0, endAngle = 0 } = {}, drawler = new GroupDrawler()) {
         super({x,y}, drawler)
@@ -47,6 +47,7 @@ export default class Section extends Group {
 
     set startAngle(value) {
         this.__startAngle = value;
+        this.arc.startAngle = value;
         this.__calc();
     }
 
@@ -54,56 +55,41 @@ export default class Section extends Group {
 
     set endAngle(value) {
         this.__endAngle = value;
+        this.arc.endAngle = value;
         this.__calc();
     }
 
     get endAngle() { return this.__endAngle; }
     
     private __calc_x(radius: number, angle: number) {
-        return calc_leg_x(radius, angle) + this.arc.x + this.__radius;
+        return calc_leg_x(radius, angle) + this.arc.x + this.arc.radius;
     }
     
     private __calc_y(radius: number, angle: number) {
-        return calc_leg_y(radius, angle) + this.arc.y + this.__radius;
+        return calc_leg_y(radius, angle) + this.arc.y + this.arc.radius;
     }
 
-    // override set x(newval: number) {
-    //     // console.log(123)
-    //     this.__x.value = newval;
-    //     this.__set_shifts();
-    //     this.__calc();
-    // }
-
     private __calc() {
-        this.line1.x0 = this.__radius;
-        this.line2.x0 = this.__radius;
-        this.line1.y0 = this.__radius;
-        this.line2.y0 = this.__radius;
-
-        // this.arc.x = this.x;
-        // this.arc.y = this.y;
-        // console.log(123)
-        this.line1.x1 = this.__calc_x(this.__radius, this.__startAngle);
-        this.line1.y1 = this.__calc_y(this.__radius, this.__startAngle);
-        this.line2.x1 = this.__calc_x(this.__radius, this.__endAngle);
-        this.line2.y1 = this.__calc_y(this.__radius, this.__endAngle);
-
-        this.arc.startAngle = this.__startAngle;
-        this.arc.endAngle = this.__endAngle;
+        this.line1.x0 = this.arc.radius;
+        this.line2.x0 = this.arc.radius;
+        this.line1.y0 = this.arc.radius;
+        this.line2.y0 = this.arc.radius;
+        this.line1.x1 = this.__calc_x(this.arc.radius, this.arc.startAngle);
+        this.line1.y1 = this.__calc_y(this.arc.radius, this.arc.startAngle);
+        this.line2.x1 = this.__calc_x(this.arc.radius, this.arc.endAngle);
+        this.line2.y1 = this.__calc_y(this.arc.radius, this.arc.endAngle);
     }
 
     setRadiusTransition(t: Transition) {
+        t.addChangeListener(() => this.__calc())
         this.arc.setRadiusTransition(t);
-        this.line1.setX0Transition(t);
-        this.line1.setY0Transition(t);
-        this.line1.setX1Transition(t);
-        this.line1.setY1Transition(t);
-        this.line2.setX0Transition(t);
-        this.line2.setY0Transition(t);
-        this.line2.setX1Transition(t);
-        this.line2.setY1Transition(t);
     }
     setStartAngleTransition(t: Transition) {
+        t.addChangeListener(() => this.__calc())
         this.arc.setStartAngleTransition(t);
+    }
+    setEndAngleTransition(t: Transition) {
+        t.addChangeListener(() => this.__calc())
+        this.arc.setEndAngleTransition(t);
     }
 }
