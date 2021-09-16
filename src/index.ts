@@ -22,6 +22,8 @@ import { HoverEventor } from "./events/events/hover/HoverEventor";
 import { Rectangle } from "./geometry/figures/Rectangle";
 import Transition from "./geometry/animation/Transition";
 import { cubic_bezier } from "./geometry/helpers/Animation";
+import { Circle } from "./geometry/figures/Circle";
+import Section from "./geometry/figures/complex/Section";
 
 const body = document.getElementsByTagName('body')[0];
 const canvas_el = document.createElement('canvas');
@@ -79,25 +81,42 @@ const data3: ChartData = {title: 'test', values: [
     { distance: 4, value: 130 },
 ]}
 
-const pie = new PieChart({x: 50, y: 30, radius: 100, start:4, end: 6, data: [
-    data,
-    data2,
-    data3,
-]})
+// const pie = new PieChart({x: 50, y: 30, radius: 100, start:4, end: 6, data: [
+//     data,
+//     data2,
+//     data3,
+// ]})
 
 
-canvas.addFigure(pie)
+// canvas.addFigure(pie)
 
-const rect1 = new Rectangle({x: 0, y: 500, width: 200, height: 100})
 // const rect2 = new Rectangle({x: 100, y: 300, width: 200, height: 100})
 const eventor = new HoverEventor();
 
 eventor.subscribe(canvas);
 
-canvas.addFigure(rect1)
-rect1.setXTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+// const circle = new Circle({x: 200, y: 10, radius: 205});
+// canvas.addFigure(circle)
+// circle.setRadiusTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+// circle.radius -= 100;
 
-rect1.x = rect1.x + 200;
+const section = new Section({x: 0, y: 0, radius: 50, startAngle: 0, endAngle: Math.PI / 2})
+canvas.addFigure(section);
+// section.setRadiusTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+// section.radius += 100;
+section.setXTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+section.setYTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+section.setStartAngleTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+section.startAngle -= 2;
+console.log(section)
+// section.x -= 100;
+// section.y -= 100;
+console.log(section.x)
+// section.y -= 100;
+// setInterval(() => console.log(section), 100)
+
+
+// const circle
 // const bezie1 = new CubicBezierCurve({x: 50, y: 20 ,x1: 230, y1: 30, x2: 150, y2: 60, x3: 50, y3: 100}, new CubicBezierCurveDrawler())
 // const bezie2 = new CubicBezierCurve({x: 50, y: 25 ,x1: 230, y1: 35, x2: 150, y2: 65, x3: 50, y3: 105}, new CubicBezierCurveDrawlerMy())
 

@@ -17,6 +17,7 @@ export default abstract class BaseFigure {
     public get y() { return this.__y.value }
 
     public setXTransition(t: Transition) { this.__x.transition = t }
+    public setYTransition(t: Transition) { this.__y.transition = t }
 
     isBelousPoint(point: Point) {
         return false;

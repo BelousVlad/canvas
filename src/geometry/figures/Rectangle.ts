@@ -1,18 +1,27 @@
+import Transition from "../animation/Transition";
+import { TransitionableProperty } from "../animation/TransitionableProperty";
 import CanBelongPoint from "../interfaces/CanBeloungPoint";
 import { Drawler } from "./drawler/Drawler";
 import { Figure } from "./Figure";
 import { Point } from "./Point";
 
 export  class Rectangle extends Figure implements CanBelongPoint{
-    public width: number;
-    public height: number;
+    private __width:  TransitionableProperty;
+    private __height: TransitionableProperty;
 
     constructor({x = 0, y = 0, width = 0, height = 0} = {}, drawler = new RectangleDrawler()) {
         super({x,y}, drawler);
-
-        this.width = width;
-        this.height = height;
+        this.__width = new TransitionableProperty(width);
+        this.__height = new TransitionableProperty(height);
     }
+
+    set width(val) { this.__width.value = val; }
+    get width() { return this.__width.value; }
+    set height(val) { this.__height.value = val; }
+    get height() { return this.__height.value; }
+
+    setWidthTransition(t: Transition) { this.__width.transition = t }
+    setHeightTransition(t: Transition) { this.__height.transition = t }
     
     isBelongPoint(p: Point): boolean {
         const   x_start = this.realShiftX + this.x,

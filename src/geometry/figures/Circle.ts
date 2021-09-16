@@ -1,4 +1,3 @@
-import Drawler from '../Drawler';
 import Arc from './curves/Arc';
 import { ArcDrawler } from './curves/Arc';
 

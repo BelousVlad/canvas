@@ -16,6 +16,7 @@ export default class Group extends Figure{
         figure.shift_y = this.y + this.shift_y;
         figure.group = this;
         this.figures.push(figure);
+        this.__set_shifts();
     }
 
     public set x(new_x: number) {
@@ -23,7 +24,7 @@ export default class Group extends Figure{
         this.__set_shifts();
     }
 
-    public override set y(new_y: number) {
+    public set y(new_y: number) {
         this.__y.value = new_y;
         this.__set_shifts();
     }
@@ -33,12 +34,14 @@ export default class Group extends Figure{
 
     private __init() {
         this.__set_shifts();
+        this.__x.addChangeListeners(() => this.__set_shifts());
+        this.__y.addChangeListeners(() => this.__set_shifts());
     }
     
-    private __set_shifts() {
+    protected __set_shifts() {
         for(const fig of this.figures) {
-            fig.shift_x = this.x;
-            fig.shift_y = this.y;
+            fig.shift_x = this.x + this.shift_x;
+            fig.shift_y = this.y + this.shift_y;
         }
     }
 }

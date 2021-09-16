@@ -11,8 +11,7 @@ export default new class {
     update(time) {
         this.time = time;
         for(let animation of this.animations) {
-            if(animation.update(time))
-                this.updates.get(animation)?.(animation.value);
+            animation.update(time)
         }
         requestAnimationFrame(this.update.bind(this))
     }
