@@ -1,16 +1,19 @@
+import { HoverEventor } from "../../../../../events/events/hover/HoverEventor";
 import Transition from "../../../../animation/Transition";
+import { cubic_bezier } from "../../../../helpers/Animation";
 import { ROUND } from "../../../../helpers/Math";
 import { GroupDrawler } from "../../../group/Group";
-import Section from "../../Section";
+import Segment from "../../segment/Segment";
 import { Chart, ChartArgs } from "../Chart";
 import { ChartData } from "../ChartData";
+import { PieSegment } from "./PieSegment";
 
 type PieArg = ChartArgs & { radius: number };
 
 export default class PieChart extends Chart {
     private __radius: number;
-    private data_figure: Map<ChartData, Section>;
-    private sections: Array<Section> = [];
+    private data_figure: Map<ChartData, Segment>;
+    private segments: Array<Segment> = [];
     private anglesTransition: Transition;
     
     constructor(arg: PieArg , drawler = new GroupDrawler()) {
@@ -26,18 +29,18 @@ export default class PieChart extends Chart {
         for(const data_item of this.data) {
             this.__addFigure(data_item);
         }
-        this.__calc_angles(true);
+        this.__calc_angles();
     }
 
     set radius(new_rad) {
         this.__radius = new_rad;
-        for(const section of this.sections)
+        for(const section of this.segments)
             section.radius = new_rad;
     }
 
     get radius() { return this.__radius; }
 
-    __calc_angles(init = false) {
+    __calc_angles() {
         let start = 0;
 
         const all_value = this.data.reduce((acc, item) => acc + this.__getDataFullValue(item), 0)
@@ -47,27 +50,15 @@ export default class PieChart extends Chart {
             const value = this.__getDataFullValue(data_item);
             // console.log(value)
             const percent = value / all_value;
-            const section = this.data_figure.get(data_item)
+            const segments = this.data_figure.get(data_item)
             const added_angle = ROUND.FULL * percent;
             const end_angle = start + added_angle;
 
             console.log(start)
-            section.startAngle = start;
-            section.endAngle = end_angle;
-
-            // if(init) {
-                //     section.startAngle = start;
-                //     section.endAngle = end_angle;
-                // }
-                // else {
-                    //     this.animator.makeAnimation({ duraction: 1000, timing_function: this.cubic_bezie },
-                    //         new Transform(section, { startAngle: start - section.startAngle, endAngle: end_angle - section.endAngle })
-                    //     )
-                    // }
-                    
-                    start = end_angle;
-                }
-            console.log(this)
+            segments.startAngle = start;
+            segments.endAngle = end_angle;
+            start = end_angle;
+        }
     }   
 
     override pushData(newData: ChartData) {
@@ -88,20 +79,25 @@ export default class PieChart extends Chart {
     }
 
     private __addFigure(data: ChartData) {
-        const section = new Section({x: this.x, y: this.y, radius: this.radius, startAngle: ROUND.FULL, endAngle: ROUND.FULL });
+        const segment = new PieSegment({x: this.x, y: this.y, radius: this.radius, startAngle: ROUND.FULL, endAngle: ROUND.FULL });
+        segment.setTranslateTransition(new Transition({duraction: 500, timing_function: cubic_bezier(.29,.09,.22,.98)}))
         if(this.anglesTransition)
-            section.setStartAngleTransition(this.anglesTransition);
-        this.figures.push(section);
-        this.sections.push(section);
-        this.data_figure.set(data, section);
+        segment.setStartAngleTransition(this.anglesTransition);
+        this.figures.push(segment);
+        this.segments.push(segment);
+        this.data_figure.set(data, segment);
     }
 
     setAnglesTransaction(t: Transition) {
         this.anglesTransition = t;
-        this.sections.forEach(section => {
-            section.setStartAngleTransition(t);
-            section.setEndAngleTransition(t);
-            // section.set
+        this.segments.forEach(segment => {
+            segment.setStartAngleTransition(t);
+            segment.setEndAngleTransition(t);
         })
+    }
+
+    test(eventor: HoverEventor) {
+        for(const seg of this.segments)
+            eventor.addListener(seg);
     }
 } 

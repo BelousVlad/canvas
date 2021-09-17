@@ -1,4 +1,3 @@
-import { Figure } from "../../../geometry/figures/Figure";
 import CanBelongPoint from "../../../geometry/interfaces/CanBeloungPoint";
 import { HoverEvent } from "./HoverEvent";
 

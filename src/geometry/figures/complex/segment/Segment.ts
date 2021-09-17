@@ -1,20 +1,21 @@
-import Transition from "../../animation/Transition";
-import { TransitionableProperty } from "../../animation/TransitionableProperty";
-import { calc_leg_x, calc_leg_y } from "../../helpers/Math";
-import Arc from "../curves/Arc";
-import Group, { GroupDrawler } from "../group/Group";
-import { Line } from "../Line";
+import Transition from "../../../animation/Transition";
+import { TransitionableProperty } from "../../../animation/TransitionableProperty";
+import { calc_leg_x, calc_leg_y } from "../../../helpers/Math";
+import Arc from "../../curves/Arc";
+import Group, { GroupDrawler } from "../../group/Group";
+import { Line } from "../../Line";
+import { Point } from "../../Point";
 
 
-export default class Section extends Group {
+export default class Segment extends Group {
 
-    private __radius: number;
-    private __startAngle: number;
-    private __endAngle: number;
+    protected __radius: number;
+    protected __startAngle: number;
+    protected __endAngle: number;
 
-    private line1: Line;
-    private line2: Line;
-    private arc: Arc;
+    protected line1: Line;
+    protected line2: Line;
+    protected arc: Arc;
 
     constructor({ x = 0, y = 0, radius = 0, startAngle = 0, endAngle = 0 } = {}, drawler = new GroupDrawler()) {
         super({x,y}, drawler)
@@ -37,7 +38,6 @@ export default class Section extends Group {
 
     set radius(value) {
         this.__radius = value;
-        // console.log(this.__radius)
         this.arc.radius = value;
         
         this.__calc();
@@ -69,7 +69,7 @@ export default class Section extends Group {
         return calc_leg_y(radius, angle) + this.arc.y + this.arc.radius;
     }
 
-    private __calc() {
+    protected __calc() {
         this.line1.x0 = this.arc.radius;
         this.line2.x0 = this.arc.radius;
         this.line1.y0 = this.arc.radius;
@@ -91,5 +91,29 @@ export default class Section extends Group {
     setEndAngleTransition(t: Transition) {
         t.addChangeListener(() => this.__calc())
         this.arc.setEndAngleTransition(t);
+    }
+
+    override isBelongPoint(p: Point) {
+        let [cx, cy] = this.arc.center;
+        const leg_a = p.y - (cy + this.y + this.realShiftY);
+        const leg_b = p.x - (cx + this.x + this.realShiftX);
+        
+        const gyp2 = leg_a**2 + leg_b**2
+        const gyp = Math.sqrt(gyp2);
+        
+        if(gyp <= this.arc.radius)
+        {
+            let rad = Math.atan(leg_a / leg_b)
+            if(leg_b < 0)
+                rad += Math.PI
+            else if(leg_a < 0)
+                rad += Math.PI * 2
+            return rad >= this.arc.startAngle && rad <= this.arc.endAngle;
+        }
+        return false;   
+    }
+
+    onMouseEnter() {
+        console.log('enter')
     }
 }

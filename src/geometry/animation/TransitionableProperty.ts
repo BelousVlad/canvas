@@ -8,7 +8,7 @@ export class TransitionableProperty {
     private __transition!: Transition;
 
     private current_transform: Transform;
-    private change_listeners = Array<Function>(); 
+    private change_listeners = Array<Function>();
 
     constructor(val: number, trans?: Transition) {
         this.__value = val;
@@ -25,6 +25,7 @@ export class TransitionableProperty {
         for(let l of this.change_listeners) {
             // console.log(l)
             this.__transition.addChangeListener(l);
+            // this.__transition.addEndListener
         }
     }
 

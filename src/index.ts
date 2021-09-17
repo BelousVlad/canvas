@@ -23,7 +23,7 @@ import { Rectangle } from "./geometry/figures/Rectangle";
 import Transition from "./geometry/animation/Transition";
 import { cubic_bezier } from "./geometry/helpers/Animation";
 import { Circle } from "./geometry/figures/Circle";
-import Section from "./geometry/figures/complex/Section";
+import Segment from "./geometry/figures/complex/segment/Segment";
 
 const body = document.getElementsByTagName('body')[0];
 const canvas_el = document.createElement('canvas');
@@ -81,7 +81,7 @@ const data3: ChartData = {title: 'test', values: [
     { distance: 4, value: 130 },
 ]}
 
-const pie = new PieChart({x: 50, y: 30, radius: 100, start:4, end: 6, data: [
+const pie = new PieChart({x: 100, y: 300, radius: 100, start:4, end: 6, data: [
     data,
     data2,
     data3,
@@ -91,11 +91,11 @@ const pie = new PieChart({x: 50, y: 30, radius: 100, start:4, end: 6, data: [
 canvas.addFigure(pie)
 pie.setAnglesTransaction(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}));
 
-pie.pushData({title: 'test', values: [
-    { distance: 0, value: 100 },
-    { distance: 2, value: 50 },
-    { distance: 4, value: 130 },
-]});
+// pie.pushData({title: 'test', values: [
+//     { distance: 0, value: 100 },
+//     { distance: 2, value: 50 },
+//     { distance: 4, value: 130 },
+// ]});
 
 
 Object.defineProperty(window, 'data', {value: data})
@@ -103,6 +103,7 @@ Object.defineProperty(window, 'pie', {value: pie})
 
 // const rect2 = new Rectangle({x: 100, y: 300, width: 200, height: 100})
 const eventor = new HoverEventor();
+pie.test(eventor);
 
 eventor.subscribe(canvas);
 
@@ -111,10 +112,12 @@ eventor.subscribe(canvas);
 // circle.setRadiusTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
 // circle.radius -= 100;
 
-// const section = new Section({x: 0, y: 0, radius: 50, startAngle: 0, endAngle: Math.PI / 2})
+// const section = new Segment({x: 0, y: 0, radius: 50, startAngle: Math.PI, endAngle: Math.PI * 2})
 // canvas.addFigure(section);
-// section.setRadiusTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
 // section.radius += 100;
+// section.setStartAngleTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
+// section.startAngle -= 1;
+// eventor.addListener(section);
 // // section.setXTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
 // // section.setYTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
 // section.setStartAngleTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}))
@@ -136,8 +139,11 @@ eventor.subscribe(canvas);
 
 // const rect2 = new Rectangle({x: 50, y: 260, width: 50, height: 50})
 
-// canvas.addFigure(rect1)
+// rect2.setTranslateTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}));
+// rect2.setTranslateTransition(new Transition({duraction: 1000, timing_function: cubic_bezier(.29,.09,.22,.98)}));
 // canvas.addFigure(rect2)
+// eventor.addListener(rect2);
+// canvas.addFigure(rect1)
 
 // const anim4 = animator.makeAnimation({duraction : 1000 }, new Transform(rect1, { x: 300 }));
 // const anim5 = animator.makeAnimation({duraction : 1000, timing_function: cubic_bezie(.29,.09,.22,.98) }, new Transform(rect2, { x: 300 }));

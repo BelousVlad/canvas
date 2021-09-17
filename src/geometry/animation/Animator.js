@@ -18,7 +18,7 @@ export default new class {
 
     makeAnimation(transition) {
         // const anim = new Transition({duraction, startTime: this.time, timing_function}, transform);
-
+        transition.startTime = this.time;;
         this.animations.push(transition);
     }
 

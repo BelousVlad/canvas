@@ -37,7 +37,7 @@ export class ArcDrawler extends Drawler<Arc>{
         const [x,y] = arc.center;
 
         this.begin(ctx);
-        ctx.arc(x + arc.shift_x, y + arc.shift_y, arc.radius, arc.startAngle, arc.endAngle);
+        ctx.arc(x + arc.shift_x + arc.translate_x, y + arc.shift_y + arc.translate_y, arc.radius, arc.startAngle, arc.endAngle);
         this.end(ctx)
     }
 }
